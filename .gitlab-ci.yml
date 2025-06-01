@@ -1,0 +1,22 @@
+stages:
+  - build
+  - push
+
+variables:
+  DOCKER_DRIVER: overlay2
+  IMAGE_NAME: bartsteer/ai-test-app
+
+before_script:
+  - docker login -u bartsteer -p "$DOCKERHUB_PASSWORD"
+
+build:
+  stage: build
+  script:
+    - docker build -t bartsteer/ai-test-app:latest .
+  
+push:
+  stage: push
+  script:
+    - docker push bartsteer/ai-test-app:latest
+  only:
+    - main
